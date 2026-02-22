@@ -2,8 +2,10 @@ import curses
 import time
 
 import cl0ui
+
 from cl0ui.widgets import w
-from cl0ui.stylesheets import BaseTextStyle, BaseOptionStyle, BaseButtonStyle
+
+from cl0ui.stylesheets import BaseAppStyle, BaseTextStyle, BaseOptionStyle, BaseButtonStyle
 
 
 class TitleStyle(BaseTextStyle):
@@ -79,5 +81,11 @@ def frame():
         cl0ui.quit()
 
 
+class AppStyle(BaseAppStyle):
+    smoothed_frame = True
+    # frame_fg = curses.COLOR_CYAN
+    # title_fg = curses.COLOR_CYAN
+
+
 if __name__ == "__main__":
-    cl0ui.run(draw_frame_callback=frame, title="cl0ui Demo #1")
+    cl0ui.run(draw_frame_callback=frame, title="cl0ui Demo #1", style=AppStyle())

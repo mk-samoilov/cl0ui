@@ -1,11 +1,13 @@
 import re
 import curses
+
 from typing import List, Tuple
+
 
 _TAG_RE = re.compile(r"\[#(\w+)]")
 
 _COLORS = {
-    # стандартные
+    # standard
     "BLACK":          curses.COLOR_BLACK,
     "RED":            curses.COLOR_RED,
     "GREEN":          curses.COLOR_GREEN,
@@ -14,7 +16,7 @@ _COLORS = {
     "MAGENTA":        curses.COLOR_MAGENTA,
     "CYAN":           curses.COLOR_CYAN,
     "WHITE":          curses.COLOR_WHITE,
-    # яркие (256-color, 8-15)
+    # bright (256-color, 8-15)
     "GRAY":           8,
     "GREY":           8,
     "BRIGHT_RED":     9,
@@ -25,7 +27,7 @@ _COLORS = {
     "PINK":           13,
     "BRIGHT_CYAN":    14,
     "BRIGHT_WHITE":   15,
-    # расширенные (256-color)
+    # extended (256-color)
     "ORANGE":         208,
     "LIGHT_ORANGE":   214,
     "GOLD":           220,
