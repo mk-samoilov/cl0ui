@@ -2,21 +2,30 @@ import curses
 import time
 
 import cl0ui
-
 from cl0ui.widgets import w
+from cl0ui.stylesheets import BaseTextStyle, BaseOptionStyle, BaseButtonStyle
 
-from cl0ui.stylesheets import BaseTextStyle, BaseOptionStyle
 
-
-class WelcomeTextStyle(BaseTextStyle):
+class TitleStyle(BaseTextStyle):
     attr = curses.A_BOLD
+    fg = curses.COLOR_CYAN
 
 
-class IncrementOptionStyle(BaseOptionStyle):
-    focused_fg = 10
+class IncrementStyle(BaseOptionStyle):
+    focused_fg = 119
 
 
-class DecrementResetOptionsStyle(BaseOptionStyle):
+class DecrementStyle(BaseOptionStyle):
+    focused_fg = 167
+
+
+class ResetStyle(BaseOptionStyle):
+    focused_fg = 167
+    focused_attr = curses.A_NORMAL
+
+
+class ExitButtonStyle(BaseButtonStyle):
+    focused_attr = curses.A_REVERSE
     focused_fg = 167
 
 
@@ -28,34 +37,47 @@ def frame():
 
     w.spacing()
 
-    w.text(text="Welcome to [#ITALIC]cl0ui[#RESET] demo!", style=WelcomeTextStyle())
-    w.text(text=f"Current time: [#MAGENTA]{time.strftime('%H:%M:%S')}[#RESET]")
-
-    w.spacing()
-    w.separation(22)
-    w.spacing()
-
-    w.text(text=f"Counter value: [#SKY_BLUE]{counter}[#RESET]")
+    w.text(text="Welcome to [#ITALIC]cl0ui[#RESET] library Demo!", style=TitleStyle())
+    w.text(text="You can navigate in interface using arrow keys on keyboard.")
 
     w.spacing()
 
-    if w.option(text="+ Increment", style=IncrementOptionStyle()):
+    w.text(text=f"[#GRAY]- [#GOLD]Time:[#RESET] [#MAGENTA]{time.strftime('%H:%M:%S')}[#RESET] ")
+    w.text(text=f"[#GRAY]- [#GOLD]Date:[#RESET] [#BRIGHT_BLUE]{time.strftime('%d.%m.%Y')}[#RESET]")
+
+    w.spacing()
+    w.separation(20)
+    w.spacing()
+
+    if counter > 0:
+        counter_color = "#BRIGHT_GREEN"
+    elif counter < 0:
+        counter_color = "#BRIGHT_RED"
+    else:
+        counter_color = "#GRAY"
+
+    w.text(text=f"Counter: [{counter_color}]{counter if counter == 0 else f'{counter:+d}'}[#RESET]")
+
+    w.spacing()
+
+    if w.option(text="+ Increment", style=IncrementStyle()):
         counter += 1
 
-    if w.option(text="- Decrement", style=DecrementResetOptionsStyle()):
+    if w.option(text="- Decrement", style=DecrementStyle()):
         counter -= 1
 
     w.spacing()
-    if w.option(text="# Reset", style=DecrementResetOptionsStyle()):
+
+    if w.option(text="# Reset", style=ResetStyle()):
         counter = 0
 
     w.spacing()
     w.separation(16)
     w.spacing()
 
-    if w.button(text="Exit"):
+    if w.button(text="Exit", style=ExitButtonStyle()):
         cl0ui.quit()
 
 
 if __name__ == "__main__":
-    cl0ui.run(draw_frame_callback=frame, title="Example Application")
+    cl0ui.run(draw_frame_callback=frame, title="cl0ui Demo #1")
