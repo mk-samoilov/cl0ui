@@ -15,20 +15,22 @@ class TitleStyle(BaseTextStyle):
 
 class IncrementStyle(BaseOptionStyle):
     focused_fg = 119
+    focused_attr = curses.A_NORMAL
 
 
 class DecrementStyle(BaseOptionStyle):
     focused_fg = 167
+    focused_attr = curses.A_NORMAL
 
 
 class ResetStyle(BaseOptionStyle):
     focused_fg = 167
-    focused_attr = curses.A_NORMAL
+    focused_attr = curses.A_REVERSE
 
 
 class ExitButtonStyle(BaseButtonStyle):
-    focused_attr = curses.A_REVERSE
     focused_fg = 167
+    focused_attr = curses.A_NORMAL
 
 
 counter = 0
@@ -77,7 +79,7 @@ def frame():
     w.separation(16)
     w.spacing()
 
-    if w.button(text="Exit", style=ExitButtonStyle()):
+    if w.button(text="Quit", style=ExitButtonStyle()):
         cl0ui.quit()
 
 
