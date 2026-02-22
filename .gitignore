@@ -10,3 +10,5 @@ CLAUDE.md
 
 local/
 *.local.*
+
+*.logs
