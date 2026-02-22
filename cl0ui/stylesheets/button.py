@@ -7,3 +7,5 @@ class BaseButtonStyle:
     padding: int = 2
     fg: int = -1
     bg: int = -1
+    focused_fg: int = -1
+    focused_bg: int = -1

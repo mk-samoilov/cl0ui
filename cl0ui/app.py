@@ -2,7 +2,7 @@ import curses
 from typing import Callable
 
 from cl0ui.widgets import w
-from cl0ui.widgets._ctx import get_color_pair
+from cl0ui.widgets._ctx import get_color_pair, ctx
 from cl0ui.stylesheets.app import BaseAppStyle
 
 _running = False
@@ -78,10 +78,13 @@ class Application:
         w._attach(stdscr)
 
         while _running:
+            h, cols = stdscr.getmaxyx()
+            ctx.win_height = h - 2
+
             stdscr.erase()
             self._draw_border(stdscr)
 
-            w._begin_frame(start_row=1)
+            w._begin_frame(start_row=0)
             self._callback()
             w._end_frame()
 

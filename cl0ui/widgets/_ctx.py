@@ -21,6 +21,9 @@ class Context:
     focused_idx: int = 0
     pressed_idx = None
     total_buttons: int = 0
+    scroll_offset: int = 0
+    win_height: int = 0
+    button_rows: list = None
 
 
 ctx = Context()

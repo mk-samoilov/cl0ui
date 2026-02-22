@@ -11,6 +11,7 @@ def option(*, text: str, style: BaseOptionStyle = None) -> bool:
 
     idx = ctx.button_count
     ctx.button_count += 1
+    ctx.button_rows.append((ctx.row, 1))
 
     is_focused = (idx == ctx.focused_idx)
     was_pressed = (idx == ctx.pressed_idx)
@@ -18,7 +19,8 @@ def option(*, text: str, style: BaseOptionStyle = None) -> bool:
     if was_pressed:
         ctx.pressed_idx = None
 
-    if ctx.win:
+    screen_row = ctx.row - ctx.scroll_offset + 1
+    if ctx.win and 1 <= screen_row < ctx.win_height + 1:
         if is_focused:
             attr = s.focused_attr
             fg, bg = s.focused_fg, s.focused_bg
@@ -30,7 +32,7 @@ def option(*, text: str, style: BaseOptionStyle = None) -> bool:
             attr |= get_color_pair(fg, bg)
 
         try:
-            ctx.win.addstr(ctx.row, 2, f'[ {text} ]', attr)
+            ctx.win.addstr(screen_row, 2, f'[ {text} ]', attr)
         except curses.error:
             pass
 
