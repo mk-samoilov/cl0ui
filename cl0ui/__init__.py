@@ -1,6 +1,6 @@
 from typing import Callable
 
-from .app import Application, quit
+from .app import Application, quit_app as quit
 
 
 def run(draw_frame_callback: Callable, title: str):

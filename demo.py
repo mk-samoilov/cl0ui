@@ -1,8 +1,23 @@
+import curses
 import time
 
 import cl0ui
 
 from cl0ui.widgets import w
+
+from cl0ui.stylesheets import BaseTextStyle, BaseOptionStyle
+
+
+class WelcomeTextStyle(BaseTextStyle):
+    attr = curses.A_BOLD
+
+
+class IncrementOptionStyle(BaseOptionStyle):
+    focused_fg = 10
+
+
+class DecrementResetOptionsStyle(BaseOptionStyle):
+    focused_fg = 167
 
 
 counter = 0
@@ -13,22 +28,26 @@ def frame():
 
     w.spacing()
 
-    w.text(text="Hello from cl0ui!")
-    w.text(text=f"Current time: {time.strftime('%H:%M:%S')}")
+    w.text(text="Welcome to [#ITALIC]cl0ui[#RESET] demo!", style=WelcomeTextStyle())
+    w.text(text=f"Current time: [#MAGENTA]{time.strftime('%H:%M:%S')}[#RESET]")
 
     w.spacing()
     w.separation(22)
     w.spacing()
 
-    w.text(text=f"Counter: {counter}")
+    w.text(text=f"Counter value: [#SKY_BLUE]{counter}[#RESET]")
 
     w.spacing()
 
-    if w.button(text="+ Counter"):
+    if w.option(text="+ Increment", style=IncrementOptionStyle()):
         counter += 1
 
-    if w.button(text="- Counter"):
+    if w.option(text="- Decrement", style=DecrementResetOptionsStyle()):
         counter -= 1
+
+    w.spacing()
+    if w.option(text="# Reset", style=DecrementResetOptionsStyle()):
+        counter = 0
 
     w.spacing()
     w.separation(16)

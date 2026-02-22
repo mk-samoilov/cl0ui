@@ -1,12 +1,14 @@
 import curses
+
 from typing import Callable
 
 from cl0ui.widgets import w
 
+
 _running = False
 
 
-def quit():
+def quit_app():
     global _running
     _running = False
 
@@ -52,6 +54,8 @@ class Application:
         _running = True
 
         curses.curs_set(0)
+        curses.start_color()
+        curses.use_default_colors()
         stdscr.timeout(100)
 
         w._attach(stdscr)

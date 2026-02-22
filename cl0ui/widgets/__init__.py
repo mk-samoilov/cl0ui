@@ -5,6 +5,11 @@ from .spacing import spacing as _spacing
 from .text import text as _text
 from .separation import separation as _separation
 from .button import button as _button
+from .option import option as _option
+from cl0ui.stylesheets.button import BaseButtonStyle
+from cl0ui.stylesheets.option import BaseOptionStyle
+from cl0ui.stylesheets.text import BaseTextStyle
+from cl0ui.stylesheets.separation import BaseSeparationStyle
 
 
 class Widgets:
@@ -22,9 +27,9 @@ class Widgets:
         if ctx.total_buttons == 0:
             return
         if key == curses.KEY_UP:
-            ctx.focused_idx = (ctx.focused_idx - 1) % ctx.total_buttons
+            ctx.focused_idx = max(0, ctx.focused_idx - 1)
         elif key == curses.KEY_DOWN:
-            ctx.focused_idx = (ctx.focused_idx + 1) % ctx.total_buttons
+            ctx.focused_idx = min(ctx.total_buttons - 1, ctx.focused_idx + 1)
         elif key in (curses.KEY_ENTER, ord('\n'), ord('\r'), ord(' ')):
             ctx.pressed_idx = ctx.focused_idx
         ctx.focused_idx = max(0, min(ctx.focused_idx, ctx.total_buttons - 1))
@@ -32,14 +37,17 @@ class Widgets:
     def spacing(self):
         _spacing()
 
-    def text(self, text: str):
-        _text(text=text)
+    def text(self, text: str, style: BaseTextStyle = None):
+        _text(text=text, style=style)
 
-    def separation(self, length: int):
-        _separation(length)
+    def separation(self, length: int, style: BaseSeparationStyle = None):
+        _separation(length, style=style)
 
-    def button(self, text: str) -> bool:
-        return _button(text=text)
+    def button(self, text: str, style: BaseButtonStyle = None) -> bool:
+        return _button(text=text, style=style)
+
+    def option(self, text: str, style: BaseOptionStyle = None) -> bool:
+        return _option(text=text, style=style)
 
 
 w = Widgets()
